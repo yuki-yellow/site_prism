@@ -76,9 +76,10 @@ module SitePrism
 
       def check_capybara_version_if_creating_shadow_root
         minimum_version = '3.37.0'
-        raise SitePrism::UnsupportedGemVersionError unless Capybara::VERSION >= minimum_version
+        return if Gem::Version.create(Capybara::VERSION) >= Gem::Version.create(minimum_version)
 
         SitePrism.logger.error("Shadow root support requires Capybara version >= #{minimum_version}. You are using #{Capybara::VERSION}.")
+        raise SitePrism::UnsupportedGemVersionError
       end
     end
   end
